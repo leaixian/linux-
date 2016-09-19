@@ -1,0 +1,100 @@
+ifconfig eth0 promisc 设置eth0为混杂模式。
+
+ifconfig eth0 -promisc 取消它的混杂模式
+
+ 
+
+botnet@botnet-virtual-machine:~$ ifconfig
+eth0 Link encap:Ethernet HWaddr 00:0c:29:ae:a9:7f 
+inet addr:192.168.4.197 Bcast:192.168.4.255 Mask:255.255.255.0
+inet6 addr: fe80::20c:29ff:feae:a97f/64 Scope:Link
+UP BROADCAST RUNNING MULTICAST MTU:1500 Metric:1
+RX packets:13682 errors:0 dropped:0 overruns:0 frame:0
+TX packets:2842 errors:0 dropped:0 overruns:0 carrier:0
+collisions:0 txqueuelen:1000 
+RX bytes:3898820 (3.8 MB) TX bytes:338848 (338.8 KB)
+
+eth1 Link encap:Ethernet HWaddr 00:0c:29:ae:a9:89 
+inet addr:192.168.57.130 Bcast:192.168.57.255 Mask:255.255.255.0
+inet6 addr: fe80::20c:29ff:feae:a989/64 Scope:Link
+UP BROADCAST RUNNING MULTICAST MTU:1500 Metric:1
+RX packets:22 errors:0 dropped:0 overruns:0 frame:0
+TX packets:101 errors:0 dropped:0 overruns:0 carrier:0
+collisions:0 txqueuelen:1000 
+RX bytes:2756 (2.7 KB) TX bytes:14469 (14.4 KB)
+
+lo Link encap:Local Loopback 
+inet addr:127.0.0.1 Mask:255.0.0.0
+inet6 addr: ::1/128 Scope:Host
+UP LOOPBACK RUNNING MTU:16436 Metric:1
+RX packets:352 errors:0 dropped:0 overruns:0 frame:0
+TX packets:352 errors:0 dropped:0 overruns:0 carrier:0
+collisions:0 txqueuelen:0 
+RX bytes:63547 (63.5 KB) TX bytes:63547 (63.5 KB)
+
+ 
+
+其中UPBROADCAST RUNNING PROMISC MULTICAST的PROMISC说明网卡eth1已经设置成混杂模式。（当前还没有设置）
+
+字段含义说明：
+eth0/eth1：          分别表示第一块网卡和第二块网卡；
+lo：                     表示回环测试接口，注意，这个虚拟的interface一定要存在！
+usb0：                 表示USB接口的网卡；
+Linkencap：        表示位于OSI物理层的名称，即连接类型Ethernet（以太网）
+HWaddr：           表示网卡的硬件地址，即MAC地址
+inetaddr ：           表示网卡IP；
+Bcast：                表示广播(broadcast ) 的地址；
+Mask：                表示子网掩码；
+UP：                    表示网卡开启状态；
+BROADCAST： 表示支持广播；
+MULTICAST：  表示网卡混杂模式；
+RUNNING：      表示网卡的网线被接上；
+MULTICAST：  表示支持组播；
+MTU：                表示MaximumTrasmission Unit 最大传输单元(字节)，即此接口一次所能传输的最大封包；
+Metric：              表示路由度量值，缺省值是0；
+RX：                   表示网络由激活到目前为止接收的数据包；
+TX：                   表示网络由激活到目前为止发送的数据包；
+collisions：         表示网络信号冲突的情况；
+txqueuelen：       表示传输缓冲区长度大小；
+Memory：          表示占用内存范围。
+
+2、设置混杂模式
+
+[zhaihf@localhost~]$ifconfig eth1 promisc
+
+3、其它方法
+
+使用arp协议，向指定怀疑的ip主机发送arp协议报文，如果有rarp协议报文返回，则证明该ip主机的网卡是混杂模式
+
+4、启动关闭指定网卡
+
+ifconfig eth0 up
+
+ifconfig eth0 down
+
+5、为网卡配置和删除IPv6地址
+
+ifconfig eth0 add 33ffe:3240:800:1005::2/64
+
+ifconfig eth0 del 33ffe:3240:800:1005::2/64
+
+6、用ifconfig修改MAC地址
+
+ifconfig eth0 hw ether 00:AA:BB:CC:DD:EE
+
+7、配置IP地址
+
+[root@localhost ~]# ifconfig eth0 192.168.120.56 
+[root@localhost ~]# ifconfig eth0 192.168.120.56 netmask 255.255.255.0 
+[root@localhost ~]# ifconfig eth0 192.168.120.56 netmask 255.255.255.0 broadcast 192.168.120.255
+
+8、启用和关闭ARP协议
+
+ifconfig eth0 arp
+
+ifconfig eth0 -arp
+
+9、设置最大传输单元
+
+ifconfig eth0 mtu 1500
+
